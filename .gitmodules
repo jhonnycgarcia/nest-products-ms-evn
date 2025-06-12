@@ -1,0 +1,3 @@
+[submodule "client-gateway"]
+	path = client-gateway
+	url = git@jhonnycgarcia:jhonnycgarcia/nest-client-gateway.git
