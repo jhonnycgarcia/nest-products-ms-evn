@@ -82,3 +82,23 @@ services:
     environment:
       - PORT=3004
       - NATS_SERVERS=nats://nats-server:4222
+      - DATABASE_URL=mongodb://auth-db:27017/auth-db
+    depends_on:
+      auth-db:
+        condition: service_healthy
+
+  auth-db:
+    image: mongo:5
+    container_name: auth-db
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_DATABASE: auth-db
+    volumes:
+      - ./auth-ms/mongo:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --eval 'db.adminCommand(\"ping\")'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
